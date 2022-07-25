@@ -41,7 +41,14 @@ router
     
     // ::TODO
     .get('/:id/conversations', async (req, res) => {
-        //::todo
-    });
+        try{
+          const conversations = await UserModel.getConversations(Number(req.params.id));
+          conversations ? (
+            res.json(conversations).status(200)
+        ) : res.json({ message : 'User not found' }).status(404);
+    } catch (err) {
+        res.json({ message : 'Error', error : err }).status(500);
+    }
+});
 
 export default router;
