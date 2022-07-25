@@ -12,7 +12,7 @@
 ### Installation
 
 - Créer une nouvelle base de données nommée `dc_messenger` depuis le fichier data.sql
-  
+
 - Cloner le template du serveur sur votre machine puis à la racine du projet : 
     - Créer un nouveau fichier `.env` en copiant/collant le fichier `.env.example` puis remplissez le avec les bonnes informations de votre environnement local.
     - Depuis votre terminal, **toujours à la racine du serveur**, éxécuter les commandes suivantes :
