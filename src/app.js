@@ -19,6 +19,7 @@ app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
+//middleware
 rooting(app);
 app.use((req, res, next) =>{
     res.status(404);
