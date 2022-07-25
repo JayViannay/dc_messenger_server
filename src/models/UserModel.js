@@ -9,7 +9,7 @@ const findAll = () => {
     });
 };
 
-const find = (id) => {
+const find = (id) => { /*ça retourne un seul user sous forme d'un tableau "result" qui a un seul index (0) */
     return new Promise((resolve, reject) => {
         db.query('SELECT * FROM user WHERE id = ?', id, (err, result) => {
             if (err) reject(err);
