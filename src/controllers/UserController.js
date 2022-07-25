@@ -1,25 +1,25 @@
 import express from 'express';
 import UserModel from '../models/UserModel.js';
 
-const router = express.Router(); 
+const router = express.Router();
 
 router
     .get('/', async (req, res) => {
         try {
             res.json(await UserModel.findAll()).status(200);
         } catch (err) {
-            res.json({ message : 'Error', error : err }).status(500);
+            res.json({ message: 'Error', error: err }).status(500);
         }
     })
 
     .get('/:id', async (req, res) => {
         try {
             const result = await UserModel.find(Number(req.params.id));
-            result ? (
-                res.json(result).status(200)
-            ) : res.json({ message : 'User not found' }).status(404);
+            result
+                ? res.json(result).status(200)
+                : res.json({ message: 'User not found' }).status(404);
         } catch (err) {
-            res.json({ message : 'Error', error : err }).status(500);
+            res.json({ message: 'Error', error: err }).status(500);
         }
     })
 
@@ -31,18 +31,33 @@ router
                 if (user) res.json({ errors: 'User already exist !' }).status(409);
                 else {
                     const userId = await UserModel.add(newUser);
-                    res.json({ success: 'User added successfully !', new_user_id : userId }).status(200);
+                    res
+                        .json({ success: 'User added successfully !', new_user_id: userId })
+                        .status(200);
                 }
             } catch (err) {
                 res.json({ errors: err }).status(500);
             }
-        } else res.json({ errors : 'All fields are required : email & password' }).status(409);
+        } else
+            res
+                .json({ errors: 'All fields are required : email & password' })
+                .status(409);
     })
-    
-    // ::TODO
+
+// ::TODO
+/* Une route qui sera utilisée pour récupérer toutes les conversations d'un utilisateur. 
+    get : méthode du routeur express. Il est utilisé pour définir un itinéraire.*/
     .get('/:id/conversations', async (req, res) => {
-        //::todo
-        
+        try {
+            /* C'est un opérateur ternaire. C'est une déclaration abrégée if/else. */
+            const results = await UserModel.getConversations(Number(req.params.id));
+            results
+                ? res.json(results).status(200)
+                : res.json({ message: 'User not found' }).status(404);
+        } catch (err) {
+            /* Attraper une erreur et renvoyer un objet json avec un message et l'erreur. */
+            res.json({ message: 'Error', error: err }).status(500);
+        }
     });
 
 export default router;
