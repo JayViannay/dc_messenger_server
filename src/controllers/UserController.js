@@ -4,18 +4,20 @@ import UserModel from '../models/UserModel.js';
 const router = express.Router(); 
 
 router
+// request to get all users in the table USER. 
     .get('/', async (req, res) => {
         try {
-            res.json(await UserModel.findAll()).status(200);
+            res.json(await UserModel.findAll()).status(200); //resultat json waiting for - findAll executes itself on UserModel - destinataire ON requete
         } catch (err) {
-            res.json({ message : 'Error', error : err }).status(500);
+            res.json({ message : 'Error', error : err }).status(500); //error from Model
         }
     })
 
+// request to get user with id stated in the url
     .get('/:id', async (req, res) => {
         try {
-            const result = await UserModel.find(Number(req.params.id));
-            result ? (
+            const result = await UserModel.find(Number(req.params.id)); // results saved in a constant result = send request to Model to find user with ID stipulated in the url
+            result ? ( //instead if if/else / true/false
                 res.json(result).status(200)
             ) : res.json({ message : 'User not found' }).status(404);
         } catch (err) {
@@ -23,6 +25,7 @@ router
         }
     })
 
+    // create a new user
     .post('/', async (req, res) => {
         if (req.body.email && req.body.password) {
             const newUser = req.body;
@@ -39,9 +42,16 @@ router
         } else res.json({ errors : 'All fields are required : email & password' }).status(409);
     })
     
-    // ::TODO
+    // get full conversation list for user = :id
     .get('/:id/conversations', async (req, res) => {
-        //::todo
+     try {
+        const conversationList = await UserModel.getConversations(Number(req.params.id));
+        conversationList ? (
+            res.json(conversationList).status(200)
+        ) : res.json({ message : 'No conversations yet' }).status(404);
+    } catch (err) {
+            res.json({ message : 'Error', error : err }).status(500);     
+        }
     });
 
 export default router;
