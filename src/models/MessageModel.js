@@ -2,7 +2,15 @@
 import db from './_index.js';
 
 const add = (message) => {
-    //::todo
+//     const { author_id, conversation_id } = message;
+//     return new Promise((resolve, reject) => {
+//         db.query('INSERT INTO message (author_id, conversation_id, created_at, content) VALUES (?, ?)',
+//             [author_id, conversation_id, created_at, content],
+//             (err, result) => {
+//                 if (err) reject(err);
+//                 else resolve(result.insertId);
+//             });
+//     });
 };
 
 export default { add };

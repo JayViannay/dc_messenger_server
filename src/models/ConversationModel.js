@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import db from './_index.js';
-//faire une requete pour récupérer les conversations et messages d'un utilisateur
+//requete pour récupérer les conversations et messages d'un utilisateur
 const getMessages = (id) => {
     return new Promise((resolve, reject) => {
         db.query('SELECT * FROM message WHERE conversation_id = ?', id, (err, results) => {
@@ -24,8 +24,13 @@ const updateLastMessageId = (id, messageId) => {
 };
 
 const add = () => {
-   
-};
+    return new Promise((resolve, reject) => {
+        db.query('INSERT INTO conversation (last_message_id) VALUES (?)', [], (err, result) => {
+            if (err) reject(err);
+            else resolve(result.insertId);
+        });
+    });
+}
 
 const addParticipant = (conversation_id, user_id) => {
     //::todo
