@@ -61,9 +61,9 @@ npm start
     - Créer une nouvelle conversation avec un ou plusieurs autres `user`
 
 #####  🚩 Contraintes : 
-> Un `user` ne peut pas créer de conversation avec lui-même.
-> Un `user` ne peut pas créer une nouvelle conversation avec un autre `user` si une conversation existe entre eux.
-> Un `user` ne peut pas sélectionner une conversation qui n'existe pas.
+> Un `user` ne peut pas créer de conversation avec lui-même. <br>
+> Un `user` ne peut pas créer une nouvelle conversation avec un autre `user` si une conversation existe entre eux. <br>
+> Un `user` ne peut pas sélectionner une conversation qui n'existe pas. <br>
 > A chaque fois qu'un `user` crée une conversation de groupe, c'est à dire avec plus de 2 participants lui compris, on créera à chaque fois une nouvelle conversation même si les participants sont identiques.
 
 ##### 🎈 Bonus et axes d'améliorations :
