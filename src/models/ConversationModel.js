@@ -3,9 +3,9 @@ import db from './_index.js';
 
 const getMessages = (id) => {
     return new Promise((resolve, reject) => {
-        db.query(`SELECT * FROM messages WHERE conversation_id = ${id}`, (err, results) => { 
+        db.query(`SELECT * FROM message WHERE conversation_id = ${id}`, (err, results) => { 
             if (err) reject(err);
-            else resolve(results); /* la requête retourne une erreur sinon le resultat dans results */
+            else resolve(results); /* la requête retourne une erreur et sinon affiche le resultat dans results */
         });
     });
 };
