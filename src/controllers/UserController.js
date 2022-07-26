@@ -40,12 +40,26 @@ router
     })
     
     // ::TODO
-    .get('/:id/conversations', async (req, res) => {
+/*     .get('/:id/conversations', async (req, res) => {
         try {
             const result = await UserModel.getConversations(Number(req.params.id));
             result ? (
                 res.json(result).status(200)
             ) : res.json({ message : 'User not found' }).status(404);
+        } catch (err) {
+            res.json({ message : 'Error', error : err }).status(500);
+        }
+    
+    }); */
+
+    .get('/:id/conversations', async (req, res) => {
+
+        try {
+            const userExist = await UserModel.find(Number(req.params.id));
+            if (userExist) {
+                const results = await UserModel.getConversations(Number(req.params.id));
+                    res.json(results).status(200);
+             } else res.json({ message : 'User not found' }).status(404);
         } catch (err) {
             res.json({ message : 'Error', error : err }).status(500);
         }
