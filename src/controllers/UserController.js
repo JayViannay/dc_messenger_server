@@ -39,29 +39,20 @@ router
         } else res.json({ errors : 'All fields are required : email & password' }).status(409);
     })
     
-    // Méthode de récupération de la liste des conversations d'un user en prenant exemple sur le get user mais avec le modele du user : getConversations!
-    // .get('/:id', async (req, res) => {
-    //     try {
-    //         const result = await UserModel.find(Number(req.params.id));
-    //         result ? (
-    //             res.json(result).status(200)
-    //         ) : res.json({ message : 'User not found' }).status(404);
-    //     } catch (err) {
-    //         res.json({ message : 'Error', error : err }).status(500);
-    //     }
-    // })
+    // // Méthode de récupération de la liste des conversations d'un user en prenant exemple sur le get user mais avec le modele du user : getConversations! Et comme c'est une liste avec plusieurs conversations il faut mettre un "s" à result, donc results
+    // Dans la correction on met un if pour si userExist
 
     .get('/:id/conversations', async (req, res) => {
         try {
-            const result = await UserModel.getConversations(Number(req.params.id));
-             result ? (
-                res.json(result).status(200)
-                ) : res.json({ message : 'User not found' }).status(404);
+            const userExist = await UserModel.find(Number(req.params.id));
+            if (userExist) {
+                const results = await UserModel.getConversations(Number(req.params.id)); 
+                res.json(results).status(200);
+            } else res.json({ message : 'User not found' }).status(404);
             } catch (err) {
-                res.json({ message : 'Error', error : err }).status(500);
-            }
-        })
-
+            res.json({ message : 'Error', error : err }).status(500); 
+    }});
+            
 
 
 export default router;
