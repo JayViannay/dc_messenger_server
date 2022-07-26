@@ -50,7 +50,7 @@ router
         conversationList ? ( 
             res.json(conversationList).status(200)
         ) : res.json({ message : 'User not found' }).status(404); //Check la base de données USER 
-// conversationList ? res.json(conversationList).status(200) : res.json({message : 'No conversations yet'}).status(404);
+// conversationList ? res.json(conversationList).status(200) : res.json({message : 'No user found'}).status(404);
     } catch (err) {
             res.json({ message : 'Error', error : err }).status(500);     
         }
