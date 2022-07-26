@@ -2,7 +2,12 @@
 import db from './_index.js';
 
 const getMessages = (id) => {
-    //::todo
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM message WHERE conversation_id= ?', id, (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
 };
 
 const getParticipants = (id) => {
