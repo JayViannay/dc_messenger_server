@@ -46,7 +46,7 @@ router
             if (userExists) {
                 const results = await UserModel.getConversations(Number(req.params.id))
                 res.json(results).status(200)
-            }else res.json({ message : 'User not found'}).status(404);
+            } else res.json({ message : 'User not found'}).status(404);
                 } catch (err) {
                     res.json({ message : 'Error', error : err }).status(500);
                 }
