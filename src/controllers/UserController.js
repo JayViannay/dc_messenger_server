@@ -46,6 +46,7 @@ router
     .get('/:id/conversations', async (req, res) => {
         try {
             const userExist = await UserModel.find(Number(req.params.id));
+
             if (userExist){
                 const results = await UserModel.getConversations(Number(req.params.id));
                 res.json(results).status(200)
@@ -54,6 +55,7 @@ router
         } catch (err) {  
             /* Attraper une erreur et renvoyer un objet json avec un message et l'erreur. */
             res.json({ message : 'Error', error : err }).status(500);
+
         }
     });
 
