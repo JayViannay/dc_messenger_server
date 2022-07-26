@@ -40,7 +40,6 @@ router
     })
 
     .get('/:id/conversations', async (req, res) => {
-
         try {
             const userExist = await UserModel.find(Number(req.params.id));
             if (userExist) {
@@ -50,7 +49,6 @@ router
         } catch (err) {
             res.json({ message: 'Error', error: err }).status(500);
         }
-        
     });
 
 export default router;
