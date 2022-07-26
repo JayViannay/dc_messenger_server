@@ -46,12 +46,25 @@ router
     .get('/:id/conversations', async (req, res) => {
      try {
         const conversationList = await UserModel.getConversations(Number(req.params.id));
-        conversationList ? (
+        //paranthese are not compulsory if only one instruction. Possible to put all on one line. 
+        conversationList ? ( 
             res.json(conversationList).status(200)
-        ) : res.json({ message : 'No conversations yet' }).status(404);
+        ) : res.json({ message : 'User not found' }).status(404); //Check la base de données USER 
+// conversationList ? res.json(conversationList).status(200) : res.json({message : 'No conversations yet'}).status(404);
     } catch (err) {
             res.json({ message : 'Error', error : err }).status(500);     
         }
     });
+
+    // try { Sending back an empty list = a results
+    //     const userExist = await UserModel.find(Number(req.params.id));
+    //     if (userExist) {
+    //         const resultats = await UserModel.getConversations(Number(req.params.id));
+    //         res.json(results).status(200);
+    //     } else {
+    //         res.json({ message : 'User not found' }).status(404);
+    //     }catch (err) {
+    //         res.json({ message : 'Error', error : err }).status(500); 
+    // }};
 
 export default router;
