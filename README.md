@@ -69,7 +69,7 @@ npm start
 #### 🎈 Bonus et axes d'améliorations :
 
 ##### Améliorer notre application avec de nouvelles fonctionnalités :
-    - Possibilité d'ajouter des participants à une conversation en cours <br>
-    - Possibilité de supprimer un participant d'une conversation en cours <br>
-    - Possibilité de nommer une conversation de groupe (participants > 2) <br>
+    - Possibilité d'ajouter des participants à une conversation en cours 
+    - Possibilité de supprimer un participant d'une conversation en cours 
+    - Possibilité de nommer une conversation de groupe (participants > 2) 
     - Ajouter un système de notification pour les nouveaux messages
