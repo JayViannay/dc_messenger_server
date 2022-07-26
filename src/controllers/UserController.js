@@ -39,16 +39,17 @@ router
         } else res.json({ errors : 'All fields are required : email & password' }).status(409);
     })
     
-    // ::TODO
+    // aficher les conversations d'un utilisateur (en verifiant que l'utilisateur existe)
     .get('/:id/conversations', async (req, res) => {
         try {
-            const results = await UserModel.getConversations(Number(req.params.id));
-            results ? (
+            const userExists =  await UserModel.find(Number(req.params.id));
+            if (userExists) {
+                const results = await UserModel.getConversations(Number(req.params.id))
                 res.json(results).status(200)
-                ) : res.json({ message : 'No conversations yet' }).status(404);
-            } catch (err) {
-                res.json({ message : 'Error', error : err }).status(500);
-            }
+            }else res.json({ message : 'User not found'}).status(404);
+                } catch (err) {
+                    res.json({ message : 'Error', error : err }).status(500);
+                }
         });
 
 export default router;
