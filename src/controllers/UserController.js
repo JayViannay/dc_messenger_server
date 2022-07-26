@@ -11,7 +11,7 @@ router
             res.json({ message : 'Error', error : err }).status(500);
         }
     })
-
+// Méthode pour récupérer un user par son id en utilisant le modèle find (modèle rangé dans le fichier UserModel.js)
     .get('/:id', async (req, res) => {
         try {
             const result = await UserModel.find(Number(req.params.id));
@@ -39,9 +39,29 @@ router
         } else res.json({ errors : 'All fields are required : email & password' }).status(409);
     })
     
-    // ::TODO
+    // Méthode de récupération de la liste des conversations d'un user en prenant exemple sur le get user mais avec le modele du user : getConversations!
+    // .get('/:id', async (req, res) => {
+    //     try {
+    //         const result = await UserModel.find(Number(req.params.id));
+    //         result ? (
+    //             res.json(result).status(200)
+    //         ) : res.json({ message : 'User not found' }).status(404);
+    //     } catch (err) {
+    //         res.json({ message : 'Error', error : err }).status(500);
+    //     }
+    // })
+
     .get('/:id/conversations', async (req, res) => {
-        //::todo
-    });
+        try {
+            const result = await UserModel.getConversations(Number(req.params.id));
+             result ? (
+                res.json(result).status(200)
+                ) : res.json({ message : 'User not found' }).status(404);
+            } catch (err) {
+                res.json({ message : 'Error', error : err }).status(500);
+            }
+        })
+
+
 
 export default router;
