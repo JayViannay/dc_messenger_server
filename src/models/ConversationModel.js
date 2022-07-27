@@ -37,6 +37,12 @@ const updateLastMessageId = (id, messageId) => {
 
 /* Une fonction qui ajoute une conversation à la base de données. INSERT INTO `conversation` (`id`, `last_message_id`) VALUES (NULL, NULL);*/
 const add = () => {
+    return new Promise((resolve, reject) => {
+        db.query('INSERT INTO conversation (id) VALUES (NULL)', (err, result) => {
+            if (err) reject(err);
+            else resolve(result.insertId);
+        });
+    });
 };
 
 /* Une fonction qui prend deux paramètres, conversation_id et user_id, et renvoie une valeur.*/
@@ -47,7 +53,7 @@ const addParticipant = (conversation_id, user_id) => {
             [conversation_id, user_id],
             (err, result) => {
                 if (err) reject(err);
-                else resolve(result.insertId);
+                else resolve(result);
             });
     });
 };
