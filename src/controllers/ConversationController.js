@@ -7,7 +7,7 @@ router
     .get('/:id/participants', async (req, res) => {
         //::todo
     })
-
+    
     .get('/:id/messages', async (req, res) => {
         //::todo
     })

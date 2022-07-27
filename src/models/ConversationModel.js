@@ -1,8 +1,14 @@
 /* eslint-disable no-unused-vars */
 import db from './_index.js';
 
+// Je veux récupérer tous les messages d'une de mes conversations A CORRIGER
 const getMessages = (id) => {
-    //::todo
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM conversation id = ?', (err, results) => {
+            if (err) reject(err);
+            else resolve(results);
+        });
+    });
 };
 
 const getParticipants = (id) => {
