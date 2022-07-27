@@ -55,7 +55,6 @@ router
         } catch (err) {  
             /* Attraper une erreur et renvoyer un objet json avec un message et l'erreur. */
             res.json({ message : 'Error', error : err }).status(500);
-
         }
     });
 
