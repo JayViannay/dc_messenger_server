@@ -2,10 +2,8 @@
 import db from './_index.js';
 
 const getMessages = (id) => {
-    
-const getMessages = (id) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM message' WHERE id = ?', id, (err, results) => {
+        db.query('SELECT * FROM message WHERE conversation_id = ?', id, (err, results) => {
             if (err) reject(err);
             else resolve(results);
         });
@@ -13,7 +11,12 @@ const getMessages = (id) => {
 };
 
 const getParticipants = (id) => {
-    //::todo
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM conversation_user INNER JOIN user WHERE user.id=conversation_user.user_id', id, (err, results) => {
+            if (err) reject(err);
+            else resolve(results);
+        });
+    });
 };
 
 const updateLastMessageId = (id, messageId) => {
@@ -21,7 +24,13 @@ const updateLastMessageId = (id, messageId) => {
 };
 
 const add = () => {
-    //::todo
+//    // const {last_message_id} = conversation;
+//     return new Promise((resolve, reject) => {
+//         db.query('INSERT INTO `conversation`(`last_message_id`) VALUES (?)');
+//             (err, result) => {
+//                 if (err) reject(err);
+//                 else resolve(result);
+//             }
 };
 
 const addParticipant = (conversation_id, user_id) => {
