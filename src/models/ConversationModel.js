@@ -7,7 +7,7 @@ import db from './_index.js';
  */
 const getMessages = (id) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM conversation id = ?', (err, results) => {
+        db.query('SELECT * FROM message WHERE conversation_id = ? ORDER BY created_at DESC', id, (err, results) => {
             if (err) reject(err);
             else resolve(results);
         });
@@ -26,7 +26,7 @@ const getMessages = (id) => {
  */
 const getParticipants = (id) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT user.id user.email FROM conversation_user INNER JOIN user ON conversation_user.user_id = user.id WHERE conversation_id = 1', (err, results) => {
+        db.query('SELECT user.id, user.email FROM conversation_user INNER JOIN user ON conversation_user.user_id = user.id WHERE conversation_id = ?', id, (err, results) => {
             if (err) reject(err);
             else resolve(results);
         });
