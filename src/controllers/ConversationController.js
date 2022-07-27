@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import express from 'express';
+import ConversationModel from '../models/ConversationModel.js';
 
 const router = express.Router();
 
@@ -12,7 +13,12 @@ router
     })
     
     .get('/:id/messages', async (req, res) => {
-        //::todo
+        try {
+            const results = await ConversationModel.getMessages(Number(req.params.id));
+            res.json(results).status(200);
+        } catch (err) {
+            res.json({ message: 'Error', error: err }).status(500);
+        }
     })
 
     /**
