@@ -26,15 +26,12 @@ router
      */
     .get('/:id/messages', async (req, res) => {
         try {
-            const conversationExists = await ConversationModel.getMessages(Number(req.params.id));
-            if (conversationExists) {
-                const results = await ConversationModel.getMessages(Number(req.params.id))
-                res.json(results).status(200)
-            } else  res.json({ message : 'Conversation not found'}).status(404);
-                } catch (err) {
-                    res.json({ message : 'Error', error : err }).status(500);
-                }
-        })
+            const results = await ConversationModel.getMessages(Number(req.params.id))
+            res.json(results).status(200)
+        } catch (err) {
+            res.json({ message : 'Error', error : err }).status(500);
+        }
+    })
 
 
     /**
