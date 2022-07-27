@@ -6,9 +6,9 @@ import db from './_index.js';
  */
 const getMessages = (id) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM message WHERE conversation_id = ?', id, (err, result) => {
+        db.query('SELECT * FROM message WHERE conversation_id = ?', id, (err, results) => {
             if (err) reject(err);
-            else resolve(result[0]);
+            else resolve(results);
         });
     });
 };
@@ -24,14 +24,26 @@ const getMessages = (id) => {
  * 
  */
 const getParticipants = (id) => {
-    //::todo
+    return new Promise((resolve, reject) => {
+        db.query('SELECT user.id, user.email FROM conversation_user INNER JOIN user ON conversation_user.user_id = user.id WHERE conversation_id = ?' , id , (err, result) => {
+            if (err) reject(err);
+            else resolve(result[0]);
+        });
+    });
 };
 
 /**
  * Update the last_message_id of a conversation
  */
 const updateLastMessageId = (id, messageId) => {
-    //::todo
+    return new Promise((resolve, reject) => {
+        db.query('UPDATE conversation SET last_message_id = ? WHERE id = ?',
+            [messageId, id],
+            (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+    });
 };
 
 /**

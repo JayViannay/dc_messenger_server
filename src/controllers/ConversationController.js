@@ -8,7 +8,12 @@ router
      * url to get participants from a conversation
      */
     .get('/:id/participants', async (req, res) => {
-        //::todo
+        try {
+            const listConversations = await ConversationModel.getParticipants(Number(req.params.id));
+            res.json(listConversations).status(200);
+        } catch (err) {
+            res.json({ message: 'Error', error: err }).status(500);
+        }
     })
 
     /**
@@ -16,11 +21,8 @@ router
      */
     .get('/:id/messages', async (req, res) => {
         try {
-            const conversationExist = await ConversationModel.getMessages(Number(req.params.id));
-            if (conversationExist) {
-                const listMessages = await ConversationModel.getMessages(Number(req.params.id));
-                res.json(listMessages).status(200);
-            } else res.json({ message: 'User not found' }).status(404);
+            const listMessages = await ConversationModel.getMessages(Number(req.params.id));
+            res.json(listMessages).status(200);
         } catch (err) {
             res.json({ message: 'Error', error: err }).status(500);
         }
