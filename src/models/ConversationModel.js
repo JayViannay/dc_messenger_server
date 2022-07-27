@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import db from './_index.js';
 
-// Je veux récupérer tous les messages d'une de mes conversations A CORRIGER
 /**
  * Get all messages from a conversation 
  */
@@ -51,7 +50,13 @@ const updateLastMessageId = (id, messageId) => {
  * Create a conversation
  */
 const add = () => {
-    //::todo
+    return new Promise((resolve, reject) => {
+        db.query('INSERT INTO conversation (id) VALUES (NULL)',
+            (err, result) => {
+                if (err) reject(err);
+                else resolve(result.insertId);
+            });
+    });
 };
 
 /**
@@ -59,7 +64,14 @@ const add = () => {
  * Bdd table : conversation_user (fields : conversation_id, user_id)
  */
 const addParticipant = (conversation_id, user_id) => {
-    //::todo
+    return new Promise((resolve, reject) => {
+        db.query('INSERT INTO conversation_user (conversation_id, user_id) VALUES (?, ?)',
+            [conversation_id, user_id],
+            (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+    });
 };
 
 export default { getMessages, getParticipants, updateLastMessageId, add, addParticipant };
