@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import express from 'express';
-
+import ConversationModel from '../models/ConversationModel.js';
 const router = express.Router();
 
 router
@@ -15,7 +15,15 @@ router
      * url to get messages from a conversation
      */
     .get('/:id/messages', async (req, res) => {
-        //::todo
+        try {
+            const conversationExist = await ConversationModel.getMessages(Number(req.params.id));
+            if (conversationExist) {
+                const listMessages = await ConversationModel.getMessages(Number(req.params.id));
+                res.json(listMessages).status(200);
+            } else res.json({ message: 'User not found' }).status(404);
+        } catch (err) {
+            res.json({ message: 'Error', error: err }).status(500);
+        }
     })
 
     /**

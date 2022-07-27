@@ -5,7 +5,12 @@ import db from './_index.js';
  * Get all messages from a conversation 
  */
 const getMessages = (id) => {
-    //::todo
+    return new Promise((resolve, reject) => {
+        db.query('SELECT * FROM message WHERE conversation_id = ?', id, (err, result) => {
+            if (err) reject(err);
+            else resolve(result[0]);
+        });
+    });
 };
 
 /**
