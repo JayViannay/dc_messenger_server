@@ -17,15 +17,11 @@ router
      */
     .get('/:id/messages', async (req, res) => {
         try {
-            const allconv = await ConversationModel.getMessages(Number(req.params.id));
-            
-            allconv ? (
-                res.json(allconv).status(200)
-            ) : res.json({ message : 'User not found' }).status(404);
+            const results = await ConversationModel.getMessages(Number(req.params.id)); // on convertit le param en Int
+            res.json(results).status(200)
         } catch (err) {
           res.json({ message : 'Error', error : err }).status(500);
-        } // affiche les messages d'une conversation
-        
+        } // affiche les messages d'une conversation  
     }) 
 
     /**
