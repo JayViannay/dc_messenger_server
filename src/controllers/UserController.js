@@ -39,7 +39,6 @@ router
         } else res.json({ errors : 'All fields are required : email & password' }).status(409);
     })
     
-    // ::TODO
     .get('/:id/conversations', async (req, res) => {
         try {
             const userExist = await UserModel.find(Number(req.params.id));
