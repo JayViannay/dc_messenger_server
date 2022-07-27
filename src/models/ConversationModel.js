@@ -6,7 +6,7 @@ import db from './_index.js';
  */
 const getMessages = (id) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM message WHERE conversation_id = ?', id, (err, results) => {
+        db.query('SELECT * FROM message WHERE conversation_id = ? ORDER BY created_at DESC', id, (err, results) => {
             if (err) reject(err);
             else resolve(results);
         });
@@ -23,9 +23,10 @@ const getMessages = (id) => {
  * SELECT plop.id plop.email FROM plopinette_plop INNER JOIN plop ON plopinette_plop.plop_id = plop.id WHERE plopinette_id = 1;
  * 
  */
+//Need to add conversation_user first, as it is condition by the WHERE conversation_id=? so that is the entrance point. Exclude the password, we don't want it stocked locally on the user's computer.
 const getParticipants = (id) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM conversation_user INNER JOIN user WHERE user.id=conversation_user.user_id', id, (err, results) => {
+        db.query('SELECT user.id, user.email FROM conversation_user INNER JOIN user ON user.id=conversation_user.user_id WHERE conversation_id=?', id, (err, results) => {
             if (err) reject(err);
             else resolve(results);
         });
