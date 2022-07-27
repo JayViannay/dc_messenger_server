@@ -51,21 +51,28 @@ const updateLastMessageId = (id, messageId) => { //id=conversation_id & messageI
  * Create a conversation
  */
 const add = () => {
-//    // const {last_message_id} = conversation;
-//     return new Promise((resolve, reject) => {
-//         db.query('INSERT INTO `conversation`(`last_message_id`) VALUES (?)');
-//             (err, result) => {
-//                 if (err) reject(err);
-//                 else resolve(result);
-//             }
-};
+    return new Promise((resolve, reject) => {
+       db.query('INSERT INTO `conversation`(`id`) VALUES (NULL)');
+           (err, result) => {
+               if (err) reject(err);
+               else resolve(result);
+          };
+        })};
+    
 
 /**
  * Add a participant to a conversation
  * Bdd table : conversation_user (fields : conversation_id, user_id)
  */
 const addParticipant = (conversation_id, user_id) => {
-    //::todo
-};
+    return new Promise((resolve, reject) => {
+        db.query('INSERT INTO conversation_user (conversation_id, user_id) VALUES (?, ?)');
+        [conversation_id, user_id];
+            (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+           };
+         });
+        };
 
 export default { getMessages, getParticipants, updateLastMessageId, add, addParticipant };
