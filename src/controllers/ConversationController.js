@@ -18,9 +18,7 @@ router
     .get('/:id/messages', async (req, res) => {
         try {
             const allmessages = await ConversationModel.getMessages(Number(req.params.id));
-            allmessages ? (
-                res.json(allmessages).status(200)
-            ) : res.json({ message : 'User not found' }).status(404);
+            res.json(allmessages).status(200);
         } catch (err) {
           res.json({ message : 'Error', error : err }).status(500);
         }
