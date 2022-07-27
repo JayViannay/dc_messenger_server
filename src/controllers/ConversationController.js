@@ -24,12 +24,8 @@ router
      */
     .get('/:id/messages', async (req, res) => {
         try {
-            const convExist = await ConversationModel.getMessages(Number(req.params.id));/* req.params.id est converti en integer en mettant number car c'est string a la base*/
-           
-            if (convExist){
-                const results = await ConversationModel.getMessages(Number(req.params.id));
-                res.json(results).status(200)
-             }else res.json({ message : 'conversation not found' }).status(404);
+            const results = await ConversationModel.getMessages(Number(req.params.id));/* req.params.id est converti en integer en mettant number car c'est string a la base*/
+            res.json(results).status(200)
 
         } catch (err) {
             res.json({ message : 'Error', error : err }).status(500);
