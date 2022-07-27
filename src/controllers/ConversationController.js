@@ -25,11 +25,11 @@ router
      */
     .get('/:id/messages', async (req, res) => {
         try {
-            const convExist = await ConversationModel.getMessages(Number(req.params.id));
-            if (convExist) {
+            const convExist = await ConversationModel.getMessages(Number(req.params.id)); //not necessary
+            if (convExist) { //not necessary
                 const listMessage = await ConversationModel.getMessages(Number(req.params.id)); // results saved in a constant result = send request to Model to find messages for conversation_id
                 res.json(listMessage).status(200)
-            } else res.json({ message : 'Message not found' }).status(404);
+            } else res.json({ message : 'Message not found' }).status(404); //not necessary 
         } catch (err) {
             res.json({ message : 'Error', error : err }).status(500);
             }
