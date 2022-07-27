@@ -50,6 +50,7 @@ const findByEmail = (email) => {
         });
     });
 };
+
 // modèle getConversations à utiliser pour récupérer la liste des conversation par userId
 const getConversations = (userId) => {
     return new Promise((resolve, reject) => {
