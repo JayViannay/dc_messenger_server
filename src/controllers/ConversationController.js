@@ -20,7 +20,6 @@ router
         }
        })  
 
-    
     /**
      * url to get messages from a conversation
      */

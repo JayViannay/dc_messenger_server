@@ -8,7 +8,12 @@ router
      * fields for : message author_id conversation_id created_at content
      */
     .post('/', async (req, res) => {
-        //::todo
+        try {
+            const message = await MessageModel.add(newMessage);
+            
+        } catch (err) {
+            res.json({ errors: err }).status(500);
+        }
     });
 
 export default router;
