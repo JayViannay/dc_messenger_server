@@ -10,7 +10,16 @@ router
      * url to get participants from a conversation
      */
     .get('/:id/participants', async (req, res) => {
-        //::todo
+        try {
+            const Conv = await ConversationModel.getParticipants(Number(req.params.id));
+            if (Conv) {
+                const results = await ConversationModel.getParticipants(Number(req.params.id))
+                res.json(results).status(200);
+            } else res.json({ message: 'User not found' }).status(404);
+        } catch (err) {
+            res.json({ message: 'Error', error: err }).status(500);
+
+        }
     })
 
     /**
