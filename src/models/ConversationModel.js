@@ -32,7 +32,7 @@ const getParticipants = (id) => {
  */
 const updateLastMessageId = (id, messageId) => {
     return new Promise((resolve, reject) => {
-        db.query('UPDATE conversation SET messageId = ? WHERE id = ?',
+        db.query('UPDATE conversation SET last_message_id = ? WHERE id = ?',
             [messageId, id],
             (err, result) => {
                 if (err) reject(err);
