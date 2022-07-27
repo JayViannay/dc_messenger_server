@@ -6,7 +6,7 @@ import db from './_index.js';
  */
 const getMessages = (id) => {
     return new Promise((resolve, reject) => {
-        db.query('SELECT * FROM message WHERE conversation_id = ?', id, (err, result) => {
+        db.query('SELECT * FROM message WHERE conversation_id = ? ORDER BY created_at DESC', id, (err, result) => {
             if (err) reject(err);
             else resolve(result);
         });
@@ -20,11 +20,16 @@ const getMessages = (id) => {
  * Example INNER JOIN with table plop (id, email) and table plopinette_plop (plop_id, plopinette_id) 
  * Like you have to do with table user (id, email) and table conversation_user (user_id, conversation_id)
  * 
- * SELECT plop.id plop.email FROM plopinette_plop INNER JOIN plop ON plopinette_plop.plop_id = plop.id WHERE plopinette_id = 1;
+ * SELECT user.id user.email FROM conversation_user INNER JOIN user ON conversation_user.user_id = user.id WHERE conversation_id = 1;
  * 
  */
 const getParticipants = (id) => {
-    //::todo
+    return new Promise((resolve, reject) => {
+        db.query('SELECT user.id, user.email FROM conversation_user INNER JOIN user ON conversation_user.user_id = user.id WHERE conversation_id = ?', id, (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
 };
 
 /**

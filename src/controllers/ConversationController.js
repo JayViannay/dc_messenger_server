@@ -9,19 +9,24 @@ router
      * url to get participants from a conversation
      */
     .get('/:id/participants', async (req, res) => {
-     //::todo
+        try {
+            const listParticipants = await ConversationModel.getParticipants(Number(req.params.id));
+            res.json(listParticipants).status(200);
+        }catch (err) {  
+            res.json({ message : 'Error', error : err }).status(500);
+        }
      })
 
     /**
      * url to get messages from a conversation
      */
     .get('/:id/messages', async (req, res) => {
-            try {
-                const listMessages = await ConversationModel.getMessages(Number(req.params.id));
-                res.json(listMessages).status(200);
-            }catch (err) {  
-                res.json({ message : 'Error', error : err }).status(500);
-            }
+        try {
+            const listMessages = await ConversationModel.getMessages(Number(req.params.id));
+            res.json(listMessages).status(200);
+        }catch (err) {  
+            res.json({ message : 'Error', error : err }).status(500);
+        }
     })
 
     /**
