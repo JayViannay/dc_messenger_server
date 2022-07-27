@@ -18,7 +18,7 @@ router
             ) : res.json({ message : 'User not found' }).status(404);
         } catch (err) {
           res.json({ message : 'Error', error : err }).status(500);
-        }
+        } // affiche les messages d'une conversation
         
     }) 
 
