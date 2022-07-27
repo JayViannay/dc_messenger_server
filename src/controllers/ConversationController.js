@@ -11,9 +11,7 @@ router
     .get('/:id/participants', async (req, res) => {
         try {
             const participant = await ConversationModel.getParticipants(Number(req.params.id));
-            participant ? (
-                res.json(participant).status(200)
-            ) : res.json({ message : 'User not found' }).status(404);
+            res.json(participant).status(200)
         } catch (err) {
           res.json({ message : 'Error', error : err }).status(500);
         }

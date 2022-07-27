@@ -8,7 +8,7 @@ import db from './_index.js';
  */
  const getMessages = (id) => { /* le id est celui d'une conversation */
  return new Promise((resolve, reject) => {
-     db.query('SELECT * FROM message WHERE conversation_id = ?', id, (err, results) => {/* ma requête me retourne une erreur oubien resultat dans results */
+     db.query('SELECT * FROM message WHERE conversation_id = ? ORDER BY created_at DESC', id, (err, results) => {/* ma requête me retourne une erreur oubien resultat dans results */
          
      if (err) reject(err);
          else resolve(results);
@@ -27,16 +27,16 @@ import db from './_index.js';
  * SELECT plop.id plop.email FROM plopinette_plop INNER JOIN plop ON plopinette_plop.plop_id = plop.id WHERE plopinette_id = 1;
  * 
  */
-// const getParticipants = (id) => {
-//     return new Promise((resolve, reject) => {
-//         db.query('SELECT * FROM conversation_user inner Join user WHERE id = conversation_user.user_id', id, (err, results) => {/* ma requête me retourne une erreur oubien resultat dans results */
+const getParticipants = (id) => {
+    return new Promise((resolve, reject) => {
+        db.query('SELECT user.id , user.email FROM conversation_user inner Join user on conversation_user.user_id = user.id  WHERE conversation_id = ?', id, (err, results) => {/* ma requête me retourne une erreur oubien resultat dans results */
             
-//         if (err) reject(err);
-//             else resolve(results);
+        if (err) reject(err);
+            else resolve(results);
             
-//         });
-//    });
-// }
+        });
+   });
+}
 
 /**
  * Update the last_message_id of a conversation
