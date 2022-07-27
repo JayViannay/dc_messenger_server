@@ -36,8 +36,15 @@ const getParticipants = (id) => {
 /**
  * Update the last_message_id of a conversation
  */
-const updateLastMessageId = (id, messageId) => {
-    //::todo
+const updateLastMessageId = (id, messageId) => { //id=conversation_id & messageId=InsertId
+    return new Promise((resolve, reject) => {
+        db.query('UPDATE conversation SET last_message_id = ? WHERE id = ?',
+            [messageId, id],
+            (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            });
+    });
 };
 
 /**
