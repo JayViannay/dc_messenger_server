@@ -9,7 +9,12 @@ router
      * url to get participants from a conversation
      */
     .get('/:id/participants', async (req, res) => {
-        //::todo
+        try {
+            const results = await ConversationModel.getParticipants(Number(req.params.id));
+            res.json(results).status(200);
+        } catch (err) {
+          res.json({ message : 'Error', error : err }).status(500);
+        }
     })
 
     /**

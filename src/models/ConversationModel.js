@@ -24,7 +24,12 @@ const getMessages = (id) => {
  * 
  */
 const getParticipants = (id) => {
-    //::todo
+    return new Promise((resolve, reject) => {
+        db.query('SELECT user.id, user.email FROM conversation_user INNER JOIN user ON conversation_user.user_id = user.id WHERE conversation_id=?', id, (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
 };
 
 /**
