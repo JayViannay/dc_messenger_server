@@ -52,7 +52,6 @@ const addParticipant = (conversation_id, user_id) => {
     });
 };
 
-
 /* Vérifier si une conversation existe entre deux utilisateurs. */
 const convExist = (user_id, recipient_id) => {
 };
