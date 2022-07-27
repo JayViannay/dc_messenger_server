@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import db from './_index.js';
 
-/* Une fonction qui prend un identifiant et renvoie les messages. SELECT * FROM `message` WHERE `conversation_id` = ?;*/
+/* Une fonction qui prend un identifiant et renvoie les messages. SELECT * FROM `message` WHERE `conversation_id` = ? ORDER BY created_at DESC;*/
 const getMessages = (id) => {
     return new Promise((resolve, reject) => {
         db.query('SELECT * FROM message WHERE conversation_id = ?', id, (err, results) => {
@@ -24,16 +24,14 @@ const getParticipants = (id) => {
 
 /* Une fonction qui prend deux paramètres, id et messageId, et renvoie une valeur. */
 const updateLastMessageId = (id, messageId) => {
-    /*/return new Promise((resolve, reject) => {
-        /* Mise à jour du dernier identifiant de message d'une conversation. UPDATE `conversation` SET `last_message_id` = '?' WHERE `conversation`.`id` = ?;*/
-        /*SELECT * FROM conversation WHERE (sender_id='user_id' OR receiver_id='user_id) ORDER BY timestamp DESC LIMIT 1
-        db.query('UPDATE conversation SET last_message_id = ? WHERE id = ?',
-            [messageId, id],
-            (err, result) => {
-                if (err) reject(err);
-                else resolve(result);
-            });
-    });*/
+    /* Mise à jour du dernier identifiant de message d'une conversation. UPDATE `conversation` SET `last_message_id` = '?' WHERE `conversation`.`id` = ?;*/
+    /* UPDATE conversation SET last_message_id = ? WHERE id = ?, [messageId, id] */
+    return new Promise((resolve, reject) => {
+        db.query('UPDATE conversation SET last_message_id = ? WHERE id = ?', [messageId, id], (err, results) => {
+            if (err) reject(err);
+            else resolve(results);
+        });
+    });
 
 };
 

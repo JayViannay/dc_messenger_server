@@ -6,10 +6,9 @@ import ConversationModel from '../models/ConversationModel.js';
 const router = express.Router();
 
 router
-    /* Écouter une requête get à l'url `/:id/participants` puis exécuter la fonction qui lui est
-    transmise. */
+    /* Écouter une requête get à l'url `/:id/participants` puis exécuter la fonction qui lui est transmise. */
     .get('/:id/participants', async (req, res) => {
-       /* Obtenir les participants d'une conversation. */
+        /* Obtenir les participants d'une conversation. */
         try {
             const participants = await ConversationModel.getParticipants(Number(req.params.id));
             participants ? res.json(participants).status(200) : res.json({ message: 'User not found' }).status(404);
@@ -18,8 +17,7 @@ router
         }
     })
 
-    /* Une route qui écoute une requête get à l'url `/:id/messages` et qui exécute ensuite la fonction
-    qui lui est transmise. */
+    /* Une route qui écoute une requête get à l'url `/:id/messages` et qui exécute ensuite la fonction qui lui est transmise. */
     .get('/:id/messages', async (req, res) => {
         /* Obtenir les messages d'une conversation. */
         try{
