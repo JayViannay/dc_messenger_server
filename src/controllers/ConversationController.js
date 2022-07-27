@@ -16,14 +16,10 @@ router
      * url to get messages from a conversation
      */
     .get('/:id/messages', async (req, res) => {
-        try {
-            const messagesExist = await ConversationModel.getMessages(Number(req.params.id));
-            if (messagesExist) {
+            try {
                 const listMessages = await ConversationModel.getMessages(Number(req.params.id));
                 res.json(listMessages).status(200);
-            } else res.json({ message: 'User not found' }).status(404);
-            } catch (err) {
-                
+            }catch (err) {  
                 res.json({ message : 'Error', error : err }).status(500);
             }
     })
