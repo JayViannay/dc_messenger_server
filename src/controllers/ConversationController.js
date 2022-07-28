@@ -37,7 +37,7 @@ router
     * id est auto incrémenté et last_message_id est nullable
     */
     .post('/', async (req, res) => {
-        /* Obtenir les participants du corps de la requête.
+        /* Obtenir les participants du corps de la requête. req.body contient les paramètres envoyés par le client dans le cadre d’une requête POST.
         const participants = req.body.participants;
         /* Vérifier si le tableau des participants a deux users et si le premier user n'est pas égal au deuxième user.
         if (participants.length === 2 && participants[0] !== participants[1]) {
@@ -47,17 +47,33 @@ router
                 if (participants_id) { /* Si la conversation existe déjà.
                     res.json({ message: 'Conversation already exist !' }).status(409);
                     /* Création d'un nouveau message et mise à jour du last_message_id de la conversation.
-                    const messagesExist = await MessageModel.add ({author_id: participants[0], conversation_id: participants_id, created_at: new Date()});
-                    await ConversationModel.updateLastMessageId(Number(req.params.id),messagesExist);
+                    const message = req.body;
+                    const newMsgId = await MessageModel.add(message);
+                    await ConversationModel.updateLastMessageId(message.conversation_id, newMsgId);
+                    res.send({ success: 'Message added successfully !' }).status(200);
+                    
                 } else {
                     /* Création d'une nouvelle conversation et mise à jour du last_message_id de la conversation.
-                    const conversation_id = await ConversationModel.add(Number(req.params.id));
+
+                    * const conversation = req.body;
+                    const newConvId = await ConversationModel.add(conversation);
+                    const message = req.body;
+                    const newMsgId = await MessageModel.add(message);
+                    await ConversationModel.updateLastMessageId(message.conversation_id, newMsgId);
+                    res.send({ success: 'Conversation ajoutée avec succès !' }).status(200);
+
+                    * const conversation_id = await ConversationModel.add(Number(req.params.id));
                     await ConversationModel.updateLastMessageId(Number(req.params.id), null);
+
                     /* Création d'un nouveau message et mise à jour du last_message_id de la conversation.
+
                     const newmessage = await MessageModel.add({ author_id: participants[0], conversation_id: conversation_id, created_at: new Date() });
-                    await ConversationModel.updateLastMessageId(Number(req.params.id), newmessage);
+                    await ConversationModel.updateLastMessageId(Number(req.params.id), newmessage.id);
                     res.json({ message: 'Conversation created !', newconversation_id: conversation_id }).status(201);
                     /* Retourner l'id de la conversation créée.
+                    if (){
+                        return
+                    }
                 } 
             } catch (err) { 
                 res.json({ message: '', error: err }).status(500);
