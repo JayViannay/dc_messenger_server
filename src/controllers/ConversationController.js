@@ -65,9 +65,8 @@ router
                         }
                     } 
                 }
-
                 // if conv exist just add the message, update the conv and return conv_id
-                if (convExist ==! false) {
+                if (convExist !== false) {
                     const message = { author_id: req.body.author_id, conversation_id: convExist, content: req.body.content, created_at: req.body.created_at };
                     const newMessageId = await MessageModel.add(message);
                     await ConversationModel.updateLastMessageId(convExist, newMessageId);
@@ -75,6 +74,7 @@ router
                 }
                 // if conv doesn't exist create new conv / new message / add participant / update conv last insert message id then return conv id
                 if (convExist === false) {
+                    console.log('conv exsit');
                     const newConversationId = await ConversationModel.add();
                     participants.forEach(async participant => {
                         await ConversationModel.addParticipant(newConversationId, participant);
