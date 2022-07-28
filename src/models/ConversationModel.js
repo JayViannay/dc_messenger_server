@@ -52,11 +52,11 @@ const updateLastMessageId = (id, messageId) => { //id=conversation_id & messageI
  */
 const add = () => {
     return new Promise((resolve, reject) => {
-       db.query('INSERT INTO `conversation`(`id`) VALUES (NULL)');
+       db.query('INSERT INTO conversation (id) VALUES (NULL)',
            (err, result) => {
                if (err) reject(err);
-               else resolve(result);
-          };
+               else resolve(result.insertId);
+          });
         })};
     
 
@@ -66,13 +66,14 @@ const add = () => {
  */
 const addParticipant = (conversation_id, user_id) => {
     return new Promise((resolve, reject) => {
-        db.query('INSERT INTO conversation_user (conversation_id, user_id) VALUES (?, ?)');
-        [conversation_id, user_id];
+        db.query('INSERT INTO conversation_user (conversation_id, user_id) VALUES (?, ?)',
+        [conversation_id, user_id],
             (err, result) => {
                 if (err) reject(err);
                 else resolve(result);
-           };
+           });
          });
         };
 
+    
 export default { getMessages, getParticipants, updateLastMessageId, add, addParticipant };
