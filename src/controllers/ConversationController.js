@@ -41,41 +41,52 @@ router
      * id is auto increment and last_message_id is nullable
      */
     .post('/', async (req, res) => {
-        const participants = req.body.participants;
         try {
+            const participants = req.body.participants;
+            
+            // handle conv with two particpants
             if (participants.length === 2) {
-                let convExist = false;
                 const current_user_conversations = await UserModel.getConversations(
                     participants[0]
                 );
 
-                current_user_conversations.forEach(async (conversation) => {
-                    const conversationParticipants = await ConversationModel.getParticipants(
-                        conversation.conversation_id
-                    );
+                // check if conv exist
+                let convExist = false;
+                for (let i = 0; i < current_user_conversations.length; i++) {
+                    const conversationParticipants = await ConversationModel.getParticipants(current_user_conversations[i].conversation_id);
+                    //console.log(conversationParticipants);
                     const idsParticipant = conversationParticipants.map(
                         (participant) => participant.id.toString()
                     );
-                    if (idsParticipant.length === 2 && idsParticipant[1] == participants[1]) convExist = conversation.conversation_id;
+                   
+                    if (idsParticipant.length === 2) {
+                        if (idsParticipant.includes(participants[0]) === true && idsParticipant.includes(participants[1]) === true) {
+                            convExist = current_user_conversations[i].conversation_id;
+                        }
+                    } 
+                }
 
-                    if (convExist ==! false) {
-                        console.log('ici conv exist ?', convExist);
-                        const message = { author_id: req.body.author_id, conversation_id: convExist, content: req.body.content, created_at: req.body.created_at };
-                        const newMessageId = await MessageModel.add(message);
-                        await ConversationModel.updateLastMessageId(convExist, newMessageId);
-                        res.send({ conversation_id: convExist }).status(200);
-                    } else {
-                        const newConversationId = await ConversationModel.add();
-                        participants.forEach(async participant => {
-                            await ConversationModel.addParticipant(newConversationId, participant);
-                        });
-                        const message = { author_id: req.body.author_id, conversation_id: newConversationId, content: req.body.content, created_at: req.body.created_at };
-                        const newMessageId = await MessageModel.add(message);
-                        await ConversationModel.updateLastMessageId(newConversationId, newMessageId);
-                        res.send({ conversation_id: newConversationId }).status(200);
-                    }
-                });
-            } else {
+                // if conv exist just add the message, update the conv and return conv_id
+                if (convExist ==! false) {
+                    const message = { author_id: req.body.author_id, conversation_id: convExist, content: req.body.content, created_at: req.body.created_at };
+                    const newMessageId = await MessageModel.add(message);
+                    await ConversationModel.updateLastMessageId(convExist, newMessageId);
+                    res.send({ conversation_id: convExist }).status(200);
+                }
+                // if conv doesn't exist create new conv / new message / add participant / update conv last insert message id then return conv id
+                if (convExist === false) {
+                    const newConversationId = await ConversationModel.add();
+                    participants.forEach(async participant => {
+                        await ConversationModel.addParticipant(newConversationId, participant);
+                    });
+                    const message = { author_id: req.body.author_id, conversation_id: newConversationId, content: req.body.content, created_at: req.body.created_at };
+                    const newMessageId = await MessageModel.add(message);
+                    await ConversationModel.updateLastMessageId(newConversationId, newMessageId);
+                    res.send({ conversation_id: newConversationId }).status(200);
+                }
+            }
+            // create new conv when participants > 2 
+            if (participants.length > 2) {
                 const newConversationId = await ConversationModel.add();
                 participants.forEach(async participant => {
                     await ConversationModel.addParticipant(newConversationId, participant);
